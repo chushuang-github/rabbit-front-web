@@ -1,0 +1,12 @@
+// less混入
+// 鼠标经过上移阴影动画
+.hoverShadow () {
+  // 过渡，所有属性变化用0.5秒实现
+  transition: all .5s;
+  &:hover {
+    // 向y轴负方向平移3px，就是屏幕向上平移3px
+    transform: translate3d(0,-3px,0);
+    // 阴影：设置元素的阴影效果
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+}

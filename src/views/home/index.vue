@@ -12,3 +12,10 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="less">
+.container {
+  .hoverShadow();
+  color: @helpColor;
+}
+</style>
