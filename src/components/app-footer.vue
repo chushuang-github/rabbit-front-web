@@ -3,6 +3,7 @@
     <!-- 联系我们 -->
     <div class="contact">
       <div class="container">
+        <!-- dl标签是用来定义列表的 -->
         <dl>
           <dt>客户服务</dt>
           <dd><i class="iconfont icon-kefu"></i> 在线客服</dd>
