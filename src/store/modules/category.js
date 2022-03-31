@@ -17,7 +17,6 @@ export default {
     // 定时show和hide方法，修改当前分类数据里面的open
     show (state, id) {
       const currentCategory = state.list.find(item => item.id === id)
-      console.log(currentCategory)
       currentCategory.open = true
     },
     hide (state, id) {
