@@ -7,7 +7,8 @@ import store from '../store'
 import router from '../router'
 
 // 导出基本请求路径，原因：其它地方有可能不通过这里创建的函数发送请求
-export const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+// export const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+export const baseURL = 'https://apipc-xiaotuxian-front.itheima.net/'
 const instance = axios.create({
   baseURL,
   timeout: 5000
