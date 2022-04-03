@@ -8,7 +8,7 @@
         class="carousel-item"
         :class="{fade: i === index}"
       >
-        <RouterLink :to="`${item.hrefUrl}`">
+        <RouterLink to="/">
           <img :src="item.imgUrl" alt="">
         </RouterLink>
       </li>

@@ -19,7 +19,10 @@ export const useLazyData = (apiFn) => {
           result.value = data.result
         })
       }
-    }
+    },
+    // dom元素和可视区域相交的比例为多大时，算dom元素进入可视区域了
+    // threshold设置相交的比例足够小，dom元素刚进入可视区域，就直接去执行请求函数
+    { threshold: 0 }
   )
   // 上面有请求，为什么可以在这里直接返回？
   // 答：result是ref响应式类型的，result数据变化，页面会自动刷新的

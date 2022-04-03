@@ -14,6 +14,10 @@
   <HomeHot />
   <!-- 热门品牌 -->
   <HomeBrand />
+  <!-- 商品区块 -->
+  <HomeProduct />
+  <!-- 最新专题 -->
+  <HomeSpecial />
 </template>
 
 <script>
@@ -22,6 +26,8 @@ import HomeBanner from './component/home-banner.vue'
 import HomeNew from './component/home-new.vue'
 import HomeHot from './component/home-hot.vue'
 import HomeBrand from './component/home-brand.vue'
+import HomeProduct from './component/home-product.vue'
+import HomeSpecial from './component/home-special.vue'
 export default {
   name: 'HomePage',
   components: {
@@ -29,7 +35,9 @@ export default {
     HomeBanner,
     HomeNew,
     HomeHot,
-    HomeBrand
+    HomeBrand,
+    HomeProduct,
+    HomeSpecial
   },
   setup () {
 
