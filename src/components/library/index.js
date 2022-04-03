@@ -1,28 +1,47 @@
 // 扩展vue原有的功能：注册全局组件、自定义指令、挂载原型方法
 // 注意：vue3里面是没有过滤器的
 // 骨架屏组件
-import XtxSkeleton from './xtx-skeleton.vue'
-// 轮播图组件
-import XtxCarousel from './xtx-carousel.vue'
-// 查看更多组件
-import XtxMore from './xtx-more.vue'
-// 面包屑组件
-import XtxBread from './xtx-bread.vue'
-import XtxBreadItem from './xtx-bread-item.vue'
+// import XtxSkeleton from './xtx-skeleton.vue'
+// // 轮播图组件
+// import XtxCarousel from './xtx-carousel.vue'
+// // 查看更多组件
+// import XtxMore from './xtx-more.vue'
+// // 面包屑组件
+// import XtxBread from './xtx-bread.vue'
+// import XtxBreadItem from './xtx-bread-item.vue'
 
 // 引入图片
 import defaultImg from '../../assets/images/200.png'
+
+// 导入library文件夹下的所有组件
+// webpack提供的批量导入的api require.context(dir,deep,matching)
+// 参数1：加载的文件目录
+// 参数2：是否加载子目录
+// 参数3：正则，匹配文件
+// 返回值：导入函数 fn
+// fn.keys() 获取读取到的所有文件列表
+const importFn = require.context('./', false, /\.vue$/)
+// console.dir(importFn.keys())
 
 // 导出一个对象，对象里面有一个install方法
 // app.use()的时候，回去调用install方法，并且会将app传入这个方法
 export default {
   install: function (app) {
     // 使用app.component注册组件
-    app.component(XtxSkeleton.name, XtxSkeleton)
-    app.component(XtxCarousel.name, XtxCarousel)
-    app.component(XtxMore.name, XtxMore)
-    app.component(XtxBread.name, XtxBread)
-    app.component(XtxBreadItem.name, XtxBreadItem)
+    // app.component(XtxSkeleton.name, XtxSkeleton)
+    // app.component(XtxCarousel.name, XtxCarousel)
+    // app.component(XtxMore.name, XtxMore)
+    // app.component(XtxBread.name, XtxBread)
+    // app.component(XtxBreadItem.name, XtxBreadItem)
+
+    // 批量注册全局组件
+    importFn.keys().forEach(key => {
+      // 导入组件
+      // importFn(key)：长什么样子的，请看截图
+      const component = importFn(key).default
+      // 注册组件
+      app.component(component.name, component)
+    })
 
     // 自定义指令
     defineDirective(app)
