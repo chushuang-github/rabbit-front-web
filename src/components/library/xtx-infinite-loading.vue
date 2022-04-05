@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 export default {
   name: 'XtxInfiniteLoading',
@@ -47,6 +47,13 @@ export default {
       },
       { threshold: 0 }
     )
+
+    // 监听loading和finished是否都是false，发送一次请求
+    watch([() => props.loading, () => props.finished], ([newLoading, newFinished]) => {
+      if (!newLoading && !newFinished) {
+        emit('update-data')
+      }
+    })
 
     return {
       target

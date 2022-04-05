@@ -21,6 +21,7 @@
           :loading="loading"
           :finished="finished"
           @infinite="getData"
+          @updateData="getData"
         />
       </div>
     </div>
