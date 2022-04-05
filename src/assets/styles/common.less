@@ -117,3 +117,20 @@
     }
   }
 }
+
+// 面包屑动画
+.fade-right-enter-from,
+.fade-right-leave-to {
+  opacity: 0;
+  transform: translateX(25px);
+}
+.fade-right-enter-active,
+.fade-right-leave-active {
+  transition: all 0.5s;
+}
+.fade-right-enter-to,
+.fade-right-leave-from {
+  opacity: 1;
+  // transform: translateX(0px);
+  transform: none;
+}

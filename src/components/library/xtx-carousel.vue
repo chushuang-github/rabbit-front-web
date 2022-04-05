@@ -76,11 +76,11 @@ export default {
     // 需要监听sliders数据变化，判断如果有数据，并且autoPlay值为true，就自动播放
     // 如果watch第一个参数传入() => props.sliders，需要加上deep:true配置，进行深度监听
     // 为什么需要深度监听：props.sliders是数组+对象类型的
-    watch(props.sliders, (newValue) => {
+    watch(() => props.sliders, (newValue) => {
       if (newValue.length && props.autoPlay) {
         autoPayFn()
       }
-    }, { immediate: true })
+    }, { immediate: true, deep: true })
 
     // 2. 鼠标移入暂停自动轮播，鼠标移出恢复自动轮播(恢复轮播是有条件的)
     const stop = () => {
