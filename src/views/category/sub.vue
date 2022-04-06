@@ -21,7 +21,6 @@
           :loading="loading"
           :finished="finished"
           @infinite="getData"
-          @updateData="getData"
         />
       </div>
     </div>
@@ -92,6 +91,7 @@ export default {
       // 合并请求参数(需要保留之前的参数)
       reqParams = { ...reqParams, ...sortParams, page: 1 }
       // 数据置为空，xtx-infinite-loading组件进入可视区域，会自动去调用getData方法发送请求
+      if (!goodsList.value.length) getData()
       goodsList.value = []
     }
 
@@ -101,6 +101,7 @@ export default {
       // 合并请求参数(需要保留之前的参数)
       reqParams = { ...reqParams, ...filterParams, page: 1 }
       // 数据置为空，xtx-infinite-loading组件进入可视区域，会自动去调用getData方法发送请求
+      if (!goodsList.value.length) getData()
       goodsList.value = []
     }
 

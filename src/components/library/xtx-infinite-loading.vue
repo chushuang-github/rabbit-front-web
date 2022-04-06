@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 // 这个组件放在父组件的最下方，当这个组件出现在可视区域的时候
 // 会通知父组件一声，父组件就会进行发送请求加载数据，从而实现上拉加载的效果
@@ -49,13 +49,6 @@ export default {
       },
       { threshold: 0 }
     )
-
-    // 监听loading和finished是否都是false，发送一次请求
-    watch([() => props.loading, () => props.finished], ([newLoading, newFinished]) => {
-      if (!newLoading && !newFinished) {
-        emit('update-data')
-      }
-    })
 
     return {
       target
