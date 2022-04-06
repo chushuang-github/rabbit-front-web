@@ -31,7 +31,7 @@
         <div class="head">
           <h3>- {{sub.name}} -</h3>
           <p class="tag">{{sub.saleProperties}}</p>
-          <XtxMore />
+          <XtxMore :path="`/category/sub/${sub.id}`" />
         </div>
         <div class="body">
           <GoodsItem v-for="goods in sub.goods" :key="goods.id" :goods="goods" />

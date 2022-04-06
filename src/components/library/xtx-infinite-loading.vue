@@ -14,6 +14,8 @@
 <script>
 import { ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
+// 这个组件放在父组件的最下方，当这个组件出现在可视区域的时候
+// 会通知父组件一声，父组件就会进行发送请求加载数据，从而实现上拉加载的效果
 export default {
   name: 'XtxInfiniteLoading',
   // 正在加载和没有数据了，这两个情况都只有父组件知道
@@ -40,7 +42,7 @@ export default {
         if (isIntersecting) {
           // 触发加载更多条件：上次请求完成(loading为false)，还有数据(finished为false)
           if (!props.loading && !props.finished) {
-            // 告诉父组件，开始加载数据
+            // 告诉父组件，开始加载数据(父组件里面会发送请求，获取数据)
             emit('infinite')
           }
         }
