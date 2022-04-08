@@ -15,11 +15,17 @@
       <!-- 商品信息 -->
       <div class="goods-info">
         <div class="media">
+          <!-- 图片预览组件 -->
           <GoodsImage :images="goods.mainPictures" />
-          <GoodsSales :goods="goods" />
+          <GoodsSales />
         </div>
         <div class="spec">
           <GoodsName :goods="goods" />
+          <GoodsSku :goods="goods" @change="changeSku" />
+          <!-- 数量选择组件 -->
+          <xtx-numbox v-model="num" label="数量" :max="goods.inventory" />
+          <!-- 按钮组件 -->
+          <xtx-button type="primary" style="margin-top: 20px;">加入购物车</xtx-button>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -43,9 +49,10 @@
 import { ref, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import GoodsImage from './components/goods-image.vue'
-import GoodsRelevant from './components/goods-relevant'
+import GoodsRelevant from './components/goods-relevant.vue'
 import GoodsSales from './components/goods-sales.vue'
 import GoodsName from './components/goods-name.vue'
+import GoodsSku from './components/goods-sku.vue'
 import { findGoods } from '../../api/product'
 
 // 防止setup函数里面东西太多，所以将一些东西抽取出来
@@ -79,14 +86,29 @@ export default {
     GoodsImage,
     GoodsSales,
     GoodsName,
+    GoodsSku,
     GoodsRelevant
   },
   setup () {
     // 1. 获取商品详情数据，进行渲染
     const goods = useGoods()
 
+    // 商品属性发生变化
+    const changeSku = (sku) => {
+      if (sku.skuId) {
+        goods.value.price = sku.price
+        goods.value.oldPrice = sku.price
+        goods.value.inventory = sku.inventory
+      }
+    }
+
+    // 数量选择组件
+    const num = ref(1)
+
     return {
-      goods
+      goods,
+      num,
+      changeSku
     }
   }
 }
