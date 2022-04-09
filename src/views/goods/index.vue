@@ -29,30 +29,40 @@
         </div>
       </div>
       <!-- 商品推荐 -->
-      <GoodsRelevant />
+      <GoodsRelevant :goodsId="goods.id" />
       <!-- 商品详情 -->
       <div class="goods-footer">
         <div class="goods-article">
           <!-- 商品+评价 -->
-          <div class="goods-tabs"></div>
+          <div class="goods-tabs">
+            <GoodsTabs />
+          </div>
           <!-- 注意事项 -->
-          <div class="goods-warn"></div>
+          <div class="goods-warn">
+            <GoodsWarn />
+          </div>
         </div>
         <!-- 24热榜+专题推荐 -->
-        <div class="goods-aside"></div>
+        <div class="goods-aside">
+          <GoodsHot />
+          <GoodsHot :type="2" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import GoodsImage from './components/goods-image.vue'
 import GoodsRelevant from './components/goods-relevant.vue'
 import GoodsSales from './components/goods-sales.vue'
 import GoodsName from './components/goods-name.vue'
 import GoodsSku from './components/goods-sku.vue'
+import GoodsTabs from './components/goods-tabs.vue'
+import GoodsHot from './components/goods-hot.vue'
+import GoodsWarn from './components/goods-warn.vue'
 import { findGoods } from '../../api/product'
 
 // 防止setup函数里面东西太多，所以将一些东西抽取出来
@@ -87,7 +97,10 @@ export default {
     GoodsSales,
     GoodsName,
     GoodsSku,
-    GoodsRelevant
+    GoodsRelevant,
+    GoodsTabs,
+    GoodsHot,
+    GoodsWarn
   },
   setup () {
     // 1. 获取商品详情数据，进行渲染
@@ -104,6 +117,9 @@ export default {
 
     // 数量选择组件
     const num = ref(1)
+
+    // 通过provide向孙子组件传递参数
+    provide('goods', goods)
 
     return {
       goods,
