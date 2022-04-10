@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import HomeCategory from './component/home-category.vue'
-import HomeBanner from './component/home-banner.vue'
-import HomeNew from './component/home-new.vue'
-import HomeHot from './component/home-hot.vue'
-import HomeBrand from './component/home-brand.vue'
-import HomeProduct from './component/home-product.vue'
-import HomeSpecial from './component/home-special.vue'
+import HomeCategory from './components/home-category.vue'
+import HomeBanner from './components/home-banner.vue'
+import HomeNew from './components/home-new.vue'
+import HomeHot from './components/home-hot.vue'
+import HomeBrand from './components/home-brand.vue'
+import HomeProduct from './components/home-product.vue'
+import HomeSpecial from './components/home-special.vue'
 export default {
   name: 'HomePage',
   components: {
@@ -38,9 +38,6 @@ export default {
     HomeBrand,
     HomeProduct,
     HomeSpecial
-  },
-  setup () {
-
   }
 }
 </script>
