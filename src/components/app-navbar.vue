@@ -4,7 +4,7 @@
       <ul>
         <template v-if="profile.token">
           <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{profile.nickname}}</a></li>
-          <li><a href="javascript:;">退出登录</a></li>
+          <li><a href="javascript:;" @click="logout">退出登录</a></li>
         </template>
         <template v-else>
           <li><RouterLink to="/login">请先登录</RouterLink></li>
@@ -23,6 +23,7 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
   name: 'AppTopnav',
   setup () {
@@ -31,8 +32,16 @@ export default {
     // 使用vuex中的state，需要使用计算属性，才能变成响应式
     const profile = computed(() => store.state.user.profile)
 
+    // 退出登录：清空用户信息 + 跳转到登录页
+    const router = useRouter()
+    const logout = () => {
+      store.commit('user/setUser', {})
+      router.push('/login')
+    }
+
     return {
-      profile
+      profile,
+      logout
     }
   }
 }
