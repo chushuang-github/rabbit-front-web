@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 // 引入组件
 const Layout = () => import('../views/Layout.vue')
@@ -7,6 +7,7 @@ const TopCategory = () => import('../views/category/index.vue')
 const SubCategory = () => import('../views/category/sub.vue')
 const Goods = () => import('../views/goods/index.vue')
 const Login = () => import('../views/login/index.vue')
+const LoginCallback = () => import('../views/login/callback.vue')
 
 const routes = [
   {
@@ -19,11 +20,12 @@ const routes = [
       { path: '/product/:id', component: Goods }
     ]
   },
-  { path: '/login', component: Login }
+  { path: '/login', component: Login },
+  { path: '/login/callback', component: LoginCallback }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
   // 当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，或者自己定义滚动的位置
   // vue-router的scrollBehavior配置项，它让你可以自定义路由切换时页面如何滚动

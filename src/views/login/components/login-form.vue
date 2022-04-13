@@ -104,7 +104,14 @@
       <a href="javascript:;" class="btn" @click="login">登录</a>
     </Form>
     <div class="action">
-      <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="">
+      <!-- qq登录的按钮，是需要通过qq的js方法创建这个按钮的 -->
+      <!-- 如果是同js方法创建的按钮，点击的时候会跳转到一个新的页面打开qq登录窗口，不方便操作 -->
+      <!-- 所以我们使用a标签的方式进行跳转到qq登录的按钮，a标签里面的href属性是根据qq创建的按钮，点击的时候跳转到的链接 -->
+      <!-- <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt=""> -->
+      <!-- <span id="qqLoginBtn"></span> -->
+      <a href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback">
+        <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="">
+      </a>
       <div class="url">
         <a href="javascript:;">忘记密码</a>
         <a href="javascript:;">免费注册</a>
@@ -125,6 +132,7 @@ import { Form, Field } from 'vee-validate'
 import { useIntervalFn } from '@vueuse/core'
 import Message from '../../../components/library/Message'
 import schema from '../../../utils/vee-validate-schema'
+// import QC from 'qc'
 
 export default {
   name: 'LoginForm',
@@ -252,6 +260,16 @@ export default {
         }
       })
     }
+
+    // 创建qq登录的按钮 (这一步的目的是可以获取上面qq登录的a标签里面href属性值)
+    // 1. 准备span标签，id为qqLoginBtn
+    // 2. 调用QC.Login({ btnId: 'qqLoginBtn' })
+    // onMounted(() => {
+    //   console.log(QC)
+    //   QC.Login({
+    //     btnId: 'qqLoginBtn'
+    //   })
+    // })
 
     return {
       isMsgLogin,

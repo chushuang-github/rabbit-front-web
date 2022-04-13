@@ -13,5 +13,12 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <!-- qq登录需要引入的js文件，appid是应用的唯一标识，redirecturi是qq登录的回调地址 -->
+    <!-- 引入这个js文件之后，就会有一个全局的变量叫做QC -->
+    <script 
+      src="http://connect.qq.com/qc_jssdk.js" 
+      data-appid="100556005" 
+      data-redirecturi="http://www.corho.com:8080/#/login/callback"
+    ></script>
   </body>
 </html>

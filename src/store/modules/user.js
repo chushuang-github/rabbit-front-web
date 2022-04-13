@@ -11,13 +11,20 @@ export default {
         account: '',
         mobile: '',
         token: ''
-      }
+      },
+      // 登录后回调的路径
+      // 跳转到登录页就会去修改这个值
+      redirectUrl: '/'
     }
   },
   mutations: {
     // 修改用户信息，payload就是用户信息对象
     setUser (state, payload) {
       state.profile = payload
+    },
+    // 修改回调地址的方法
+    setRedirectUrl (state, url) {
+      state.redirectUrl = url
     }
   }
 }

@@ -1,3 +1,5 @@
+import { userAccountCheck } from '../api/user'
+
 // 定义校验规则提供给vee-validate组件使用
 export default {
   // 校验account
@@ -12,9 +14,26 @@ export default {
     if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '字母开头且6-20个字符'
     return true
   },
+  // 校验用户名(格式正确，用户名唯一(数据库里面没有该用户名))
+  async accountApi (value) {
+    if (!value) return '请输入用户名'
+    if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '字母开头且6-20个字符'
+    // 服务器端校验
+    const data = await userAccountCheck(value)
+    if (data.result.valid) return '用户名已存在'
+    return true
+  },
   password (value) {
     if (!value) return '请输入密码'
     if (!/^\w{6,24}$/.test(value)) return '密码是6-24个字符'
+    return true
+  },
+  // 校验函数还会有第二个参数，可以获取其它表单数据
+  rePassword (value, { form }) {
+    if (!value) return '请输入密码'
+    if (!/^\w{6,24}$/.test(value)) return '密码是6-24个字符'
+    // 确认密码是否和密码保持一致
+    if (form.password !== value) return '需要和密码保持一致'
     return true
   },
   mobile (value) {
