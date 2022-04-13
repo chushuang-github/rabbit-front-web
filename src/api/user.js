@@ -47,3 +47,8 @@ export const userQQPatchCode = (mobile) => {
 export const userQQPatchLogin = ({ unionId, account, mobile, code, password }) => {
   return request(`/login/social/${unionId}/complement`, 'post', { account, mobile, code, password })
 }
+
+// 解除qq号和手机号的绑定
+export const unbindQQAndMobile = (mobile) => {
+  return request('/login/social/unbind', 'get', { mobile })
+}

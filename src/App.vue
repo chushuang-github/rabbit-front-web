@@ -5,8 +5,12 @@
 </template>
 
 <script>
+// import { unbindQQAndMobile } from './api/user'
 export default {
-  name: 'App'
+  name: 'App',
+  setup () {
+    // unbindQQAndMobile(15905560621)
+  }
 }
 </script>
 
