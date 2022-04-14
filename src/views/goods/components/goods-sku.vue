@@ -203,7 +203,7 @@ export default {
   padding-top: 20px;
   dl {
     display: flex;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     align-items: center;
     dt {
       width: 50px;
@@ -215,6 +215,7 @@ export default {
       > img {
         width: 50px;
         height: 50px;
+        margin-bottom: 10px;
         .sku-state-mixin ();
       }
       > span {
@@ -222,6 +223,7 @@ export default {
         height: 30px;
         line-height: 28px;
         padding: 0 20px;
+        margin-bottom: 10px;
         .sku-state-mixin ();
       }
     }

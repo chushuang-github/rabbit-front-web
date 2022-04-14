@@ -13,7 +13,8 @@
 // 引入图片
 import defaultImg from '../../assets/images/200.png'
 // 引入Message
-import Message from '../library/Message'
+import Message from './Message'
+import Confirm from './Confirm'
 
 // 导入library文件夹下的所有组件
 // webpack提供的批量导入的api require.context(dir,deep,matching)
@@ -50,6 +51,7 @@ export default {
 
     // 如果你想挂载全局的属性，能够通过组件实例调用的属性   this.$message
     app.config.globalProperties.$message = Message
+    app.config.globalProperties.$confirm = Confirm
   }
 }
 
