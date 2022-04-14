@@ -13,3 +13,35 @@ export const getNewCartGoods = (skuId) => {
 export const getGoodsSku = (skuId) => {
   return request(`/goods/sku/${skuId}`, 'get')
 }
+
+// 合并购物车：登录的时候将本地的购物车商品保存到服务端
+// 这个接口的参数：Array<ojbect> [{ skuId, count, selected }, {}, {}]
+export const mergeCart = (cartList) => {
+  return request('/member/cart/merge', 'post', cartList)
+}
+
+// 获取服务端购物车的列表
+export const findCartList = () => {
+  return request('/member/cart', 'get')
+}
+
+// 加入购物车
+export const insertCart = ({ skuId, count }) => {
+  return request('/member/cart', 'post', { skuId, count })
+}
+
+// 删除购物车商品 (单个删除，批量删除)
+// ids是一个数组，数字里面是一个一个skuId的集合
+export const deleteCart = (ids) => {
+  return request('/member/cart', 'delete', { ids })
+}
+
+// 购物车商品选中 和修改数量
+export const updateCart = ({ skuId, count, selected }) => {
+  return request(`/member/cart/${skuId}`, 'put', { count, selected })
+}
+
+// 全选 与 反选
+export const checkAllCart = ({ selected, ids }) => {
+  return request('/member/cart/selected', 'put', { selected, ids })
+}

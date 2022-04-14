@@ -178,10 +178,13 @@ export default {
           const { id, account, avatar, mobile, nickname, token } = data.result
           // 存储用户信息
           store.commit('user/setUser', { id, account, avatar, mobile, nickname, token })
-          // 跳转至来源页
-          router.push(store.state.user.redirectUrl)
-          // 消息提示
-          Message({ type: 'success', text: 'QQ完善信息成功' })
+          // 合并购物车
+          store.dispatch('cart/mergeCart').then(() => {
+            // 跳转至来源页
+            router.push(store.state.user.redirectUrl)
+            // 消息提示
+            Message({ type: 'success', text: 'QQ完善信息成功' })
+          })
         }).catch(() => {
           Message({ type: 'error', text: '完善信息失败' })
         })

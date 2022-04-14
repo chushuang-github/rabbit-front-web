@@ -248,10 +248,13 @@ export default {
             const { id, account, avatar, mobile, nickname, token } = data.result
             // 存储用户信息
             store.commit('user/setUser', { id, account, avatar, mobile, nickname, token })
-            // 跳转至来源页
-            router.push(route.query.redirectUrl || '/')
-            // 消息提示
-            Message({ type: 'success', text: '登录成功' })
+            // 合并购物车
+            store.dispatch('cart/mergeCart').then(() => {
+              // 跳转至来源页
+              router.push(route.query.redirectUrl || '/')
+              // 消息提示
+              Message({ type: 'success', text: '登录成功' })
+            })
           } catch (e) {
             if (e.response.data) {
               Message({ type: 'error', text: e.response.data.message || '登录失败' })

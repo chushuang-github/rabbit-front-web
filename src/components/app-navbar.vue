@@ -35,7 +35,9 @@ export default {
     // 退出登录：清空用户信息 + 跳转到登录页
     const router = useRouter()
     const logout = () => {
+      // 退出登录，清空用户信息和清空购物车
       store.commit('user/setUser', {})
+      store.commit('cart/setCart', [])
       router.push('/login')
     }
 
