@@ -163,8 +163,46 @@ export default {
           // 未登录
           ctx.getters.validList.forEach(goods => {
             ctx.commit('updateCart', { skuId: goods.skuId, selected })
-            resolve()
           })
+          resolve()
+        }
+      })
+    },
+    // 批量删除购物车
+    batchDeleteCart (ctx, isClear) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 已登录
+
+        } else {
+          // 未登录
+          // isClear为true，是失效的商品列表；否则为选中的商品列表
+          const list = isClear ? ctx.getters.inValidList : ctx.getters.selectedList
+          list.forEach(goods => {
+            ctx.commit('deleteCart', goods.skuId)
+          })
+          resolve()
+        }
+      })
+    },
+    // 修改规格(sku发生变化)
+    updateCartSku (ctx, { oldSkuId, newSku }) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 已登录
+
+        } else {
+          // 未登录
+          // 1. 找出旧的商品信息
+          // 2. 删除旧的商品信息
+          // 3. 根据新的sku信息和旧的商品信息，合并成一条新的购物车商品
+          // 4. 添加这条新的购物车数据
+          const oldGoods = ctx.state.list.find(goods => goods.skuId === oldSkuId)
+          ctx.commit('deleteCart', oldSkuId)
+          const { skuId, price: nowPrice, specsText: attrsText, inventory: stock, oldPrice: price } = newSku
+          const newGoods = { ...oldGoods, skuId, nowPrice, attrsText, stock, price }
+          ctx.commit('insertCart', newGoods)
+          resolve()
         }
       })
     }

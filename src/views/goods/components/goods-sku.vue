@@ -168,7 +168,7 @@ export default {
           inventory: sku.inventory,
           // specsText值是这样的：颜色:蓝色 产地:中国 尺寸:10cm
           // 使用map方法+join方法；使用reduce方法
-          specsText: sku.specs.map(item => `${item.name}:${item.valueName}`).join(' ')
+          specsText: sku.specs.map(item => `${item.name}: ${item.valueName}`).join(' ')
           // specsText: sku.specs.reduce((res, item) => `${res} ${item.name}: ${item.valueName}`, '').trim()
         })
       } else {

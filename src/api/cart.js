@@ -8,3 +8,8 @@ import request from '../utils/request'
 export const getNewCartGoods = (skuId) => {
   return request(`goods/stock/${skuId}`, 'get')
 }
+
+// 根据商品skuId获取商品的specs和skus
+export const getGoodsSku = (skuId) => {
+  return request(`/goods/sku/${skuId}`, 'get')
+}
