@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import store from '../store'
 
 // 引入组件
 const Layout = () => import('../views/Layout.vue')
@@ -11,6 +12,8 @@ const Cart = () => import('../views/cart/index.vue')
 const Login = () => import('../views/login/index.vue')
 const LoginCallback = () => import('../views/login/callback.vue')
 
+const Checkout = () => import('../views/member/pay/checkout.vue')
+
 const routes = [
   {
     path: '/',
@@ -20,7 +23,8 @@ const routes = [
       { path: '/category/:id', component: TopCategory },
       { path: '/category/sub/:id', component: SubCategory },
       { path: '/product/:id', component: Goods },
-      { path: '/cart', component: Cart }
+      { path: '/cart', component: Cart },
+      { path: '/member/checkout', component: Checkout }
     ]
   },
   { path: '/login', component: Login },
@@ -41,6 +45,15 @@ const router = createRouter({
       left: 0,
       behavior: 'smooth'
     }
+  }
+})
+
+// 前置导航守卫
+router.beforeEach((to, from) => {
+  // 需要登录才能访问的路由：地址以 /member 开头
+  const { token } = store.state.user.profile
+  if (!token && to.path.startsWith('/member')) {
+    return `/login?redirectUrl=${encodeURIComponent(to.fullPath)}`
   }
 })
 

@@ -112,7 +112,8 @@
           共 {{$store.getters['cart/validTotal']}} 件商品，
           已选择 {{$store.getters['cart/selectedTotal']}} 件，
           商品合计：<span class="red">¥{{$store.getters['cart/selectedAmount']}}</span>
-          <XtxButton type="primary">下单结算</XtxButton>
+          <!-- 下单结算前提：必须登录，购物车里面必须要有商品(而且必须商品必须要有选中的) -->
+          <XtxButton type="primary" @click="checkout">下单结算</XtxButton>
         </div>
       </div>
       <!-- 猜你喜欢 -->
@@ -122,10 +123,12 @@
 </template>
 <script>
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import GoodRelevant from '@/views/goods/components/goods-relevant'
 import CartNone from './components/cart-none.vue'
 import CartSku from './components/cart-sku.vue'
 import Confirm from '../../components/library/Confirm'
+import Message from '../../components/library/Message'
 export default {
   name: 'XtxCartPage',
   components: {
@@ -135,6 +138,7 @@ export default {
   },
   setup () {
     const store = useStore()
+    const router = useRouter()
 
     // 单选
     const checkOne = (skuId, selected) => {
@@ -150,13 +154,13 @@ export default {
       // then函数表示点击了确认按钮，catch函数表示点击取消按钮
       Confirm({ text: '亲，您是否确认删除该商品' }).then(() => {
         store.dispatch('cart/deleteCart', skuId)
-      })
+      }).catch(() => {})
     }
     // 批量删除选中商品、也支持清空无效商品
     const batchDeleteCart = (isClear) => {
       Confirm({ text: `请，您是否确认删除${isClear ? '失效' : '选中'}的商品` }).then(() => {
         store.dispatch('cart/batchDeleteCart', isClear)
-      })
+      }).catch(() => {})
     }
     // 修改数量
     const updateCount = (skuId, count) => {
@@ -170,13 +174,27 @@ export default {
       store.dispatch('cart/updateCartSku', { oldSkuId, newSku })
     }
 
+    // 下单结算
+    const checkout = () => {
+      // 1.判断是否选中商品
+      // 2.弹窗确认框，提示：下单结算需要登录
+      // 3.使用导航守卫，遇见需要登录的路由跳转，拦截到登录页面
+      if (!store.getters['cart/selectedList'].length) {
+        return Message({ text: '请至少选中一件商品' })
+      }
+      Confirm({ text: '下单结算需要登录，现在去登录吗？' }).then(() => {
+        router.push('/member/checkout')
+      }).catch(() => {})
+    }
+
     return {
       checkOne,
       checkAll,
       delectCart,
       batchDeleteCart,
       updateCount,
-      updateCartSku
+      updateCartSku,
+      checkout
     }
   }
 }

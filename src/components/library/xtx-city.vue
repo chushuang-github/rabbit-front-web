@@ -3,7 +3,7 @@
     <div class="select" :class="{active: visible}" @click="toggle">
       <!-- 如果用户登录了，取出用户设置的默认地址(goods.userAddresses字段) -->
       <!-- 父组件里面进行判断，将地址传递过来 -->
-      <span class="placeholder" v-if="!fullLocation">请选择配送地址</span>
+      <span class="placeholder" v-if="!fullLocation">{{placeholder}}</span>
       <span class="value" v-else>{{fullLocation}}</span>
       <i class="iconfont icon-angle-down"></i>
     </div>
@@ -55,6 +55,10 @@ export default {
     fullLocation: {
       type: String,
       default: ''
+    },
+    placeholder: {
+      type: String,
+      default: '请选择配送地址'
     }
   },
   setup (props, { emit }) {
