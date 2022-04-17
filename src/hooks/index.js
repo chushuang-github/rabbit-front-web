@@ -1,6 +1,7 @@
 // 提供复用逻辑函数的钩子函数
-import { ref } from 'vue'
-import { useIntersectionObserver } from '@vueuse/core'
+import { ref, onUnmounted } from 'vue'
+import { useIntersectionObserver, useIntervalFn } from '@vueuse/core'
+import dayjs from 'dayjs'
 
 // 数据懒加载函数
 // target是dom元素(ref类型的)，apiFn是目标元素进入可视区域执行的函数
@@ -29,5 +30,41 @@ export const useLazyData = (apiFn) => {
   return {
     target,
     result
+  }
+}
+
+// 订单时间支付倒计时
+// countdown：倒计时秒数
+export const usePayTime = () => {
+  const time = ref(0)
+  const timeText = ref('')
+
+  // pause暂停(销毁)定时器；resume开启定时器
+  // useIntervalFn(callback, 循环定时器时间, 是否立即开启定时器)
+  const { pause, resume } = useIntervalFn(() => {
+    time.value--
+    // 使用dayjs库，将时间转化为我们需要的格式
+    timeText.value = dayjs.unix(time.value).format('mm分ss秒')
+    if (time.value <= 0) {
+      pause()
+    }
+  }, 1000, false)
+
+  // 组件卸载时清除定时器
+  onUnmounted(() => {
+    pause()
+  })
+
+  // 开启定时器，给time和timeText初始化赋值
+  const start = (countdown) => {
+    time.value = countdown
+    timeText.value = dayjs.unix(time.value).format('mm分ss秒')
+    resume()
+  }
+
+  return {
+    time,
+    timeText,
+    start
   }
 }

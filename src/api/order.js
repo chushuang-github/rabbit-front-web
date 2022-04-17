@@ -16,3 +16,13 @@ export const addAddress = (form) => {
 export const editAddress = (form) => {
   return request(`/member/address/${form.id}`, 'put', form)
 }
+
+// 提交订单 (提交订单之后，可以获取订单id)
+export const submitOrder = (order) => {
+  return request('/member/order', 'post', order)
+}
+
+// 根据订单id，获取订单详情
+export const findOrderDetail = (orderId) => {
+  return request(`/member/order/${orderId}`, 'get')
+}

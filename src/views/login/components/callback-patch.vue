@@ -139,7 +139,7 @@ export default {
     const formCom = ref(null)
     const time = ref(0)
     // pause暂停(销毁)定时器；resume开启定时器
-    // useIntervalFn(callback, 循环定时器时间, 是否立即开启)
+    // useIntervalFn(callback, 循环定时器时间, 是否立即开启定时器)
     const { pause, resume } = useIntervalFn(() => {
       time.value--
       if (time.value <= 0) {

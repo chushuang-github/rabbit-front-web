@@ -70,7 +70,7 @@
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <XtxButton type="primary">提交订单</XtxButton>
+          <XtxButton type="primary" @click="submitOrderFn">提交订单</XtxButton>
         </div>
       </div>
     </div>
@@ -78,30 +78,70 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive, getCurrentInstance } from 'vue'
+import { useRouter } from 'vue-router'
 import CheckoutAddress from './components/checkout-address.vue'
-import { createOrder } from '../../../api/order'
+import { createOrder, submitOrder } from '../../../api/order'
+
 export default {
-  name: 'CheckoutPage',
+  name: 'Checkout',
   components: {
     CheckoutAddress
   },
   setup () {
+    const router = useRouter()
+    const { proxy } = getCurrentInstance()
+
     // 结算功能 - 生成订单 - 订单信息
     const order = ref(null)
     createOrder().then(res => {
       order.value = res.result
+      // 获取订单信息
+      // 点击提交订单按钮的时候，需要商品信息
+      reqParams.goods = res.result.goods.map(item => {
+        return {
+          skuId: item.skuId,
+          count: item.count
+        }
+      })
     })
 
     // 提交订单需要收货地址id
-    const addressId = ref(null)
     const changeAddress = (id) => {
-      addressId.value = id
+      reqParams.addressId = id
+    }
+
+    // 提交订单
+    const reqParams = reactive({
+      // 配送时间：1为不限 2为工作日 3为双休过节假日
+      deliveryTimeType: 1,
+      // 支付方式：1位在线支付 2位货到付款
+      payType: 1,
+      // 支付渠道：1支付宝 2微信 (在线支付传值，货到付款就不传值)
+      payChannel: 1,
+      // 买家留言
+      buyerMessage: '',
+      // 商品信息：获取订单信息后设置 [{ skuId, count }]
+      goods: [],
+      // 收货地址id
+      addressId: null
+    })
+    const submitOrderFn = () => {
+      if (!reqParams.addressId) {
+        return proxy.$message({ text: '请选择收货地址' })
+      }
+      // 提交订单的接口：用来生成订单的
+      submitOrder(reqParams).then(res => {
+        proxy.$message({ type: 'success', text: '提交订单成功' })
+        // 跳转支付页面 (需要携带订单编号，根据订单编号进行支付)
+        router.push(`/member/pay?orderId=${res.result.id}`)
+      })
     }
 
     return {
       order,
-      changeAddress
+      changeAddress,
+      submitOrderFn
     }
   }
 }

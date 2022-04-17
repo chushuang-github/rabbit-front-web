@@ -13,6 +13,11 @@ const Login = () => import('../views/login/index.vue')
 const LoginCallback = () => import('../views/login/callback.vue')
 
 const Checkout = () => import('../views/member/pay/checkout.vue')
+const Pay = () => import('../views/member/pay/index.vue')
+const PayResult = () => import('../views/member/pay/result.vue')
+
+const MemberLayout = () => import('../views/member/Layout.vue')
+const MemberHome = () => import('../views/member/home/index.vue')
 
 const routes = [
   {
@@ -24,7 +29,16 @@ const routes = [
       { path: '/category/sub/:id', component: SubCategory },
       { path: '/product/:id', component: Goods },
       { path: '/cart', component: Cart },
-      { path: '/member/checkout', component: Checkout }
+      { path: '/member/checkout', component: Checkout },
+      { path: '/member/pay', component: Pay },
+      { path: '/pay/callback', component: PayResult },
+      {
+        path: '/member',
+        component: MemberLayout,
+        children: [
+          { path: '/member', component: MemberHome }
+        ]
+      }
     ]
   },
   { path: '/login', component: Login },
