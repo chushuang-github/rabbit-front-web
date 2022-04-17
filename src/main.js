@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import './mock'
+
 // 导入自己的UI组件库
 import UI from './components/library'
 

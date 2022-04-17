@@ -1,4 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { h } from 'vue'
+import { createRouter, createWebHashHistory, RouterView } from 'vue-router'
 import store from '../store'
 
 // 引入组件
@@ -18,6 +19,8 @@ const PayResult = () => import('../views/member/pay/result.vue')
 
 const MemberLayout = () => import('../views/member/Layout.vue')
 const MemberHome = () => import('../views/member/home/index.vue')
+const MemberOrder = () => import('../views/member/order/index.vue')
+const MemberOrderDetail = () => import('../views/member/order/detail.vue')
 
 const routes = [
   {
@@ -36,7 +39,20 @@ const routes = [
         path: '/member',
         component: MemberLayout,
         children: [
-          { path: '/member', component: MemberHome }
+          { path: '/member', component: MemberHome },
+          // vue3.0 需要有嵌套关系才能模糊匹配
+          // 给本来处于同一级的路由，通过下面的方式，形成嵌套关系
+          // 注意下面写法的/问题，/member/order/这个后面加上了/，children里面没有/
+          // 路由为/member/order/123的时候，和/member/order1路由有了嵌套关系
+          // 路由/member/order会被模糊匹配上去，会默认加上router-link-active类名
+          {
+            path: '/member/order/',
+            component: { render: () => h(<RouterView />) },
+            children: [
+              { path: '', component: MemberOrder },
+              { path: ':id', component: MemberOrderDetail }
+            ]
+          }
         ]
       }
     ]

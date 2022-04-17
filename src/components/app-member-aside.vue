@@ -3,7 +3,7 @@
     <div class="user-manage">
       <h4>我的账户</h4>
       <div class="links">
-        <a href="javascript:;">个人中心</a>
+        <RouterLink to="/member" exact-active-class="active">个人中心</RouterLink>
         <a href="javascript:;">消息通知</a>
         <a href="javascript:;">个人信息</a>
         <a href="javascript:;">安全设置</a>
@@ -15,7 +15,7 @@
       </div>
       <h4>交易管理</h4>
       <div class="links">
-        <a href="javascript:;">我的订单</a>
+        <RouterLink to="/member/order" active-class="active">我的订单</RouterLink>
         <a href="javascript:;">优惠券</a>
         <a href="javascript:;">礼品卡</a>
         <a href="javascript:;">评价晒单</a>
@@ -74,12 +74,12 @@ export default {
       &.active {
         color: @xtxColor;
 
-        &:before {
+        &::before {
           display: block;
         }
       }
 
-      &:before {
+      &::before {
         content: "";
         display: none;
         width: 6px;
