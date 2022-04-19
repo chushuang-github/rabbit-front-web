@@ -79,9 +79,9 @@
 
 <script>
 import { ref, reactive, getCurrentInstance } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import CheckoutAddress from './components/checkout-address.vue'
-import { createOrder, submitOrder } from '../../../api/order'
+import { createOrder, submitOrder, findOrderRepurchase } from '../../../api/order'
 
 export default {
   name: 'Checkout',
@@ -90,21 +90,33 @@ export default {
   },
   setup () {
     const router = useRouter()
+    const route = useRoute()
     const { proxy } = getCurrentInstance()
 
     // 结算功能 - 生成订单 - 订单信息
     const order = ref(null)
-    createOrder().then(res => {
-      order.value = res.result
-      // 获取订单信息
-      // 点击提交订单按钮的时候，需要商品信息
-      reqParams.goods = res.result.goods.map(item => {
-        return {
-          skuId: item.skuId,
-          count: item.count
-        }
+    if (route.query.orderId) {
+      // 根据再次购买跳转过来的订单信息，查询订单
+      findOrderRepurchase(route.query.orderId).then(res => {
+        order.value = res.result
+        // 获取订单信息
+        // 点击提交订单按钮的时候，需要商品信息
+        reqParams.goods = res.result.goods.map(({ skuId, count }) => ({ skuId, count }))
       })
-    })
+    } else {
+      // 根据购物车查询订单信息
+      createOrder().then(res => {
+        order.value = res.result
+        // 获取订单信息
+        // 点击提交订单按钮的时候，需要商品信息
+        reqParams.goods = res.result.goods.map(item => {
+          return {
+            skuId: item.skuId,
+            count: item.count
+          }
+        })
+      })
+    }
 
     // 提交订单需要收货地址id
     const changeAddress = (id) => {

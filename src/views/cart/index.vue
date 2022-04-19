@@ -182,9 +182,13 @@ export default {
       if (!store.getters['cart/selectedList'].length) {
         return Message({ text: '请至少选中一件商品' })
       }
-      Confirm({ text: '下单结算需要登录，现在去登录吗？' }).then(() => {
+      if (store.state.user.profile.token) {
         router.push('/member/checkout')
-      }).catch(() => {})
+      } else {
+        Confirm({ text: '下单结算需要登录，现在去登录吗？' }).then(() => {
+          router.push('/member/checkout')
+        }).catch(() => {})
+      }
     }
 
     return {
